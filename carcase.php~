@@ -1,0 +1,174 @@
+<?php
+session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/estilos.css">
+<link href="ABCwin.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="ABCwin.js"></script>
+
+	<title>IPNetwork</title>
+</head>
+<body data-spy="scroll" data-target="#myNavbar" data-offset="70">
+
+
+
+<!-- esta es la parte del encabezado -->
+<header class="navbar-fixed-top ">
+<nav role="navegacion" class="navbar navbar-default " id="mynavbar">
+
+        <div class="navbar-header">
+            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                <span class="glyphicon glyphicon-user"><label>username</label></span>
+
+            </button>
+            <button type="button" data-target="#navbarCollap" data-toggle="collapse" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <img src="images/logotipo.jpg" class="logo" alt="logotipo">
+        </div>
+
+<div id="navbarCollap" class="collapse navbar-collapse">
+
+    <form name="formulario1" class="navbar-form navbar-left " method="get" action="index.php" >
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search for..." name="coincidencia" />
+      <span class="input-group-btn">
+        <input type= "hidden" name = "go" value="1">
+        <input name="enviar" type="submit" class="btn btn-default" /> Go!</button>
+      </span>
+    </div><!-- /input-group -->
+  </form>
+
+  <form name="formulario2" method="get" action="index.php">
+    <ul class="nav navbar-nav navbar-right">
+        <li><button type="submit" class="btn btn-link btna btn-lg" name="seccion1">Libreta</button></li>
+				<li><a href="matprof.php" rel="GET:id=7" rev="abcwin[700,900]">Profesores y Materias</a></li>
+
+        <li><a href="#"></a></li>
+        <li role="separator" class="divider"></li>
+        <li class="logout"><button type="button" class="btn btn-primary btn-sm">Logout</button></li>
+    </ul>
+  </form>
+ </div>
+</nav>
+</header>
+<!-- Fin del encabezado -->
+
+
+
+<!-- en esta parte se encuentra la columna izquieda -->
+
+  <div id="navbarCollapse" class="collapse navbar-collapse">
+  <div class="panel panel-default col-sm-12 col-md-4 col-lg-3 colizq">
+    <div class="thumbnail ">
+
+      <div class=" col col-sm-4 col-md-12 col-lg-12">
+        <div class="contenedor-img">
+        <img src="images/foto.jpg" class="foto" alt="perfil">
+        <h2><?php echo($_SESSION['user']); ?></h2>
+        </div>
+        <div class="btn-block"><button type="button" class="btn btn-primary btn-xs btn-block">Perfil</button></div>
+
+        <div class="caption seccion2">
+        <div class="btn-group " role="group" aria-label="...">
+          <button type="button" class="btn btn-default"><small>Amigos <span class="badge">4</span></small></button>
+          <button type="button" class="btn btn-default"><small>Notas  <span class="badge">4</span></small></button>
+        </div>
+      </div>
+      </div>
+       </div>
+
+          <div class="list-group col col-sm-4 col-md-12 col-lg-12">
+          <ul class="list-group">
+
+<?php
+
+//conexion a la db
+$a=mysql_connect("localhost","root","admin")or die("problemas al conectar a MYSQL");
+mysql_select_db("ipnetwork",$a)or die("checar conexion");
+$registro=mysql_query("SELECT * from archivo WHERE USER='$_SESSION['user']'")    
+or die ("problemas en consulta: ".mysql_error());
+
+    //recuperando los datos de una base de datos
+    while($reg=mysql_fetch_array($registro)){
+	echo("
+
+
+
+<li class='list-group-item'><strong>Nombre : </strong> nombreVar apellidoVar</li>
+          <li class='list-group-item'><strong>Edad   : </strong> edadVar años</li> <!--para el registro se va a pedir fecha de nacimiento-->
+          <li class='list-group-item'><strong>Carrera: </strong> carVar</li>
+          </ul>
+          </div>
+          <div class='list-group col col-sm-4 col-md-12 col-lg-12'>
+          <ul class='list-group'>
+          <li class='list-group-item'><strong>Linea Curricular:</strong> lineacurricularVar</li>
+          <li class='list-group-item'><strong>Institucion: </strong> carreraVar</li>
+          <li class='list-group-item'><strong>Semestre: </strong> carreraVar</li>
+
+
+");
+
+
+}
+
+?>
+
+          
+          </ul>
+          </div>
+
+
+
+  <!--    <a value="seccion1"  class="list-group-item" rel="GET:id=7" rev="abcwin[700,450]">Datos de estudiante</a> -->
+
+
+
+
+
+
+  </div>
+  </div>
+
+<div class="col-sm-12 col-md-8 col-lg-9 colder ">
+ <?php
+
+	if(isset($_GET['ini'])){
+		gral_db();
+	}
+  else if(isset($_GET['seccion1'])){
+    trabajosSubidos();
+  }else if(isset($_GET['enviar'])){
+    busquedaRapida();
+  }else if(isset($_GET['comentar'])){
+   trabajosSubidos();
+   comentarios();
+  }else if(isset($_GET['seccion4'])){
+
+  }
+
+
+
+
+ ?>
+
+</div>
+
+
+
+
+
+	<script src="js/jquerry.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</body>
+</html>
